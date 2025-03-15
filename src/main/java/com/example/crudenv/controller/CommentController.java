@@ -24,4 +24,10 @@ public class CommentController {
     public ResponseEntity<List<CommentDto>> getComments() {
         return ResponseEntity.ok(commentService.getComments());
     }
+
+    // 특정 댓글 조회 (id로)
+    @GetMapping("/get/{comment_id}")
+    public ResponseEntity<CommentDto> getCommentById(@PathVariable("comment_id") Long id) {
+        return ResponseEntity.ok(commentService.getCommentById(id));
+    }
 }
