@@ -16,9 +16,15 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "comment", nullable = false)
     private String comment;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id", nullable = false)
+    private Article article;
 
     // 도메인 메서드: 댓글 내용을 업데이트하는 메서드
     public void updateComment(String newComment) {

@@ -1,7 +1,9 @@
 package com.example.crudenv.service;
 
 import com.example.crudenv.dto.CommentDto;
+import com.example.crudenv.entity.Article;
 import com.example.crudenv.entity.Comment;
+import com.example.crudenv.repository.ArticleRepository;
 import com.example.crudenv.repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +17,16 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final ArticleRepository articleRepository;
 
     @Transactional
-    public CommentDto commentRegister(CommentDto commentDto) {
+    public CommentDto commentRegister(Long articleId, CommentDto commentDto) {
+        // Article 조회
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("해당 글이 존재하지 않습니다."));
 
         Comment comment = Comment.builder()
+                .article(article)
                 .comment(commentDto.getComment())
                 .build();
 
@@ -38,6 +45,14 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
         return CommentDto.entityToDto(comment);
+    }
+
+    public List<CommentDto> getCommentsByArticleId(Long articleId) {
+        List<Comment> comments = commentRepository.findByArticleId(articleId);
+
+        return comments.stream()
+                .map(CommentDto::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional

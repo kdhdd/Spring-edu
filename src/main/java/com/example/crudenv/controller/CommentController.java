@@ -16,9 +16,9 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/regis")
-    public ResponseEntity<CommentDto> commentRegister(@RequestBody CommentDto commentDto) {
-        return ResponseEntity.ok(commentService.commentRegister(commentDto));
+    @PostMapping("/{id}/regis")
+    public ResponseEntity<CommentDto> commentRegister(@PathVariable("id") Long id, @RequestBody CommentDto commentDto) {
+        return ResponseEntity.ok(commentService.commentRegister(id, commentDto));
     }
 
     @GetMapping("/get")
@@ -30,6 +30,12 @@ public class CommentController {
     @GetMapping("/get/{comment_id}")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable("comment_id") Long id) {
         return ResponseEntity.ok(commentService.getCommentById(id));
+    }
+
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentDto>> getCommentsByArticleId(@PathVariable Long id) {
+        List<CommentDto> commentDtos = commentService.getCommentsByArticleId(id);
+        return ResponseEntity.ok(commentDtos);
     }
 
     // 댓글 수정

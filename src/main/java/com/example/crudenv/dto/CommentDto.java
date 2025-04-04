@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDto {
+    private Long articleId;
     private String comment;
 
     public static CommentDto entityToDto(Comment comment) {
         return CommentDto.builder()
+                .articleId(comment.getArticle().getId())
                 .comment(comment.getComment())
                 .build();
     }
