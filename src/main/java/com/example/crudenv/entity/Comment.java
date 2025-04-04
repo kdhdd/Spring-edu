@@ -19,4 +19,9 @@ public class Comment {
     private Long id;
 
     private String comment;
+
+    // 도메인 메서드: 댓글 내용을 업데이트하는 메서드
+    public void updateComment(String newComment) {
+        this.comment = newComment;
+    }
 }

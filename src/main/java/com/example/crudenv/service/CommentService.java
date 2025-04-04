@@ -39,4 +39,22 @@ public class CommentService {
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
         return CommentDto.entityToDto(comment);
     }
+
+    @Transactional
+    public CommentDto updateComment(Long commentId, CommentDto updateCommentDto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("해당 댓글이 존재하지 않습니다."));
+
+        comment.updateComment(updateCommentDto.getComment());
+        commentRepository.save(comment);
+
+        return CommentDto.entityToDto(comment);
+    }
+
+    @Transactional
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("해당 댓글이 존재하지 않습니다."));
+        commentRepository.delete(comment);
+    }
 }
