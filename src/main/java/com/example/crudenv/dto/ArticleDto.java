@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleDto {
+    private Long id;
     private String title;
     private String content;
 
@@ -22,6 +23,7 @@ public class ArticleDto {
 
     public static ArticleDto entitiyToDto(Article article) {
         return ArticleDto.builder()
+                .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .comments(
